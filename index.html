@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Rebounding Timer</title>
+  <meta name="description" content="A big, glanceable count-up timer for exercise classes.">
+  <meta name="theme-color" content="#000000">
+
+  <!-- iOS home-screen app -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Timer">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="mode-digital">
+  <main id="display" aria-live="off">
+    <!-- Digital -->
+    <div id="digital" class="view">
+      <div id="digital-time" class="digits">0:00</div>
+    </div>
+
+    <!-- Analog: one seconds sweep per minute, no hour/minute hands -->
+    <div id="analog" class="view">
+      <svg viewBox="-100 -100 200 200" aria-hidden="true">
+        <circle class="track" r="80"></circle>
+        <circle id="arc-first" class="arc arc-first" r="80" transform="rotate(-90)"></circle>
+        <circle id="arc-second" class="arc arc-second" r="80" transform="rotate(90)"></circle>
+        <g id="ticks"></g>
+        <text class="label" x="0" y="-55">60</text>
+        <text class="label" x="0" y="55">30</text>
+        <g id="hand">
+          <line x1="0" y1="12" x2="0" y2="-80"></line>
+          <circle class="hand-tip" cy="-80" r="7"></circle>
+        </g>
+        <circle class="hub" r="5"></circle>
+        <text id="analog-total" class="total" x="0" y="26">0:00</text>
+      </svg>
+    </div>
+  </main>
+
+  <nav id="controls">
+    <button id="btn-start" class="primary" type="button">Start</button>
+    <button id="btn-reset" type="button">Reset</button>
+    <button id="btn-mode" type="button">Analog</button>
+    <span id="wake-status" class="status" role="status"></span>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>

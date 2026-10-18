@@ -1,0 +1,124 @@
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --muted: #5a5a5a;
+  --track: #1e1e1e;
+  --first: #35d07f;   /* 0–30 s of each minute */
+  --second: #ffaa1f;  /* 30–60 s of each minute */
+  --btn: #1c1c1e;
+  --btn-fg: #f2f2f2;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  transition: background-color 0.15s ease-out;
+}
+
+/* Brief flash on every 30-second mark */
+body.flash { background: #2a2a2a; transition: none; }
+
+#display {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view { display: none; width: 100%; height: 100%; align-items: center; justify-content: center; }
+body.mode-digital #digital { display: flex; }
+body.mode-analog #analog { display: flex; }
+
+/* ---------- Digital ---------- */
+.digits {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-size: min(38vw, 72vh);
+  white-space: nowrap;
+}
+.digits.long { font-size: min(24vw, 60vh); } /* H:MM:SS */
+body.paused .digits,
+body.paused #analog svg { opacity: 0.45; }
+
+/* ---------- Analog ---------- */
+#analog svg { width: min(96vw, 88vh); height: min(96vw, 88vh); overflow: visible; }
+
+.track { fill: none; stroke: var(--track); stroke-width: 14; }
+.arc { fill: none; stroke-width: 14; }
+.arc-first { stroke: var(--first); }
+.arc-second { stroke: var(--second); }
+
+.tick { stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; }
+.tick.major { stroke: var(--fg); stroke-width: 3.5; }
+
+.label {
+  fill: var(--fg);
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.total {
+  fill: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: central;
+  font-variant-numeric: tabular-nums;
+}
+
+#hand line { stroke: var(--fg); stroke-width: 4; stroke-linecap: round; }
+.hand-tip { fill: var(--fg); }
+.hub { fill: var(--fg); }
+
+/* ---------- Controls ---------- */
+#controls {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px 16px 18px;
+  transition: opacity 0.4s ease;
+}
+body.idle #controls { opacity: 0; pointer-events: none; }
+
+button {
+  font: inherit;
+  font-size: 22px;
+  font-weight: 600;
+  min-width: 130px;
+  padding: 16px 26px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--btn);
+  color: var(--btn-fg);
+  cursor: pointer;
+}
+button:active { transform: scale(0.97); }
+button.primary { background: var(--first); color: #000; }
+button.primary.running { background: var(--btn); color: var(--btn-fg); }
+button.confirm { background: #c62828; color: #fff; }
+
+.status { font-size: 14px; color: var(--muted); min-width: 130px; text-align: center; }
+.status.warn { color: var(--second); }
